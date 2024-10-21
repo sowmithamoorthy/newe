@@ -1,0 +1,470 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    /* Add animations */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Apply animations */
+.info-container.fade-in {
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+.info-container img.slide-in-left {
+    animation: slideInLeft 1s ease-in-out forwards;
+}
+
+.info-container .text.slide-in-right {
+    animation: slideInRight 1s ease-in-out forwards;
+}
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        background-color: rgb(9, 9, 9);
+        display: flex;
+        flex-direction: column;
+    }
+    .container {
+        flex: 1;
+        padding: 20px;
+    }
+    .custom-container {
+        background-color: #333;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        color: white;
+        margin: 20px 0;
+    }
+    .custom-container h1 {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    .footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        position: relative;
+        width: 100%;
+        margin-top: auto;
+    }
+    .width-400 {
+    padding-top: 50px; /* Adds space inside the element, above its content */
+    padding-left: 50px;
+    padding-bottom: 50px;
+    padding-right: 50px;
+    margin-top: 100px; 
+
+}
+    .underline {
+        border-bottom: 2px solid blue;
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+    /* Vertical Menu Bar Styles */
+    .vertical-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 200px; /* Adjust width as needed */
+        height: 100%;
+        background-color: #222;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        transform: translateX(-100%); /* Hide menu by default */
+        transition: transform 0.3s ease; /* Smooth transition */
+        z-index: 1000;
+    }
+    .vertical-menu.show {
+        transform: translateX(0); /* Show menu when 'show' class is added */
+    }
+    .vertical-menu a {
+        color: white;
+        padding: 15px;
+        text-align: center;
+        display: block;
+        width: 100%;
+        text-decoration: none;
+    }
+    .vertical-menu a:hover {
+        background-color: #444;
+    }
+    /* Menu Bar Toggle Icon */
+    .menu-toggle {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+        cursor: pointer;
+        color: white;
+        font-size: 30px;
+    }
+    .four-column-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust spacing between columns */
+}
+
+.four-column-item {
+    flex: 1 1 calc(25% - 20px); /* Adjust width of columns and spacing */
+    background-color: #444;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.four-column-item img {
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid #555;
+}
+
+.info {
+    padding: 10px;
+}
+.scrollable-container {
+    display: flex;
+    overflow-x: auto; /* Enables horizontal scrolling */
+    padding: 10px 0; /* Adds vertical padding */
+    scroll-snap-type: x mandatory; /* Optional: snaps items to scroll position */
+}
+
+.four-column-item {
+    flex: 0 0 auto; /* Prevents items from shrinking or growing */
+    width: 250px; /* Adjust width of each column */
+    margin-right: 20px; /* Space between columns */
+    background-color: #444;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    scroll-snap-align: start; /* Optional: aligns item to start */
+}
+
+.four-column-item img {
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid #555;
+}
+
+.info {
+    padding: 10px;
+}
+
+.info .logo {
+    width: 50px; /* Adjust logo size */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.info .logo {
+    width: 120px; /* Adjust logo size */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+    .menu-toggle .bar {
+        display: block;
+        width: 30px;
+        height: 3px;
+        background-color: white;
+        margin: 6px 0;
+        transition: 0.3s;
+    }
+    .menu-toggle.open .bar:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    .menu-toggle.open .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .menu-toggle.open .bar:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+    /* New Styles */
+    .info-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        opacity: 0; /* Initial state hidden */
+        transition: opacity 1s ease-in-out, transform 1s ease-in-out; /* Smooth transition */
+    }
+    .info-container img {
+        width: 45%;
+        height: auto;
+        transform: translateX(-20px); /* Initial state for animation */
+    }
+    .info-container .text {
+        width: 45%;
+        transform: translateX(20px); /* Initial state for animation */
+    }
+    /* Keyframes for animations */
+    .fade-in {
+        opacity: 1 !important;
+    }
+    .slide-in-left {
+        transform: translateX(0) !important;
+    }
+    .slide-in-right {
+        transform: translateX(0) !important;
+    }
+</style>
+
+<!-- Menu Toggle Icon -->
+<div class="menu-toggle" id="menu-toggle">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+</div>
+
+<!-- Vertical Menu Bar -->
+<div class="vertical-menu" id="vertical-menu">
+    <a href="#home">Home</a>
+    <a href="#latestnews">Latest News</a>
+    <a href="#check">Check</a>
+    <a href="#about">About</a>
+    <a href="#footer">Footer</a>
+</div>
+<div class="logo text-center mb-3">
+    <h1 style="color:white;width:1000px; display: inline-block; border-bottom: 3px solid rgb(53, 6, 78); padding-bottom: 5px;padding-top: 50px;">DEEPFAKE DETECTION</h1>
+</div>
+<div id="latestnews" class="container">
+    <!-- Existing content... -->
+    <h1 style="color:white">Latest news</h1>
+    <div class="custom-container">
+        <div class="scrollable-container">
+            
+            <div class="four-column-item">
+            
+                <img src="https://images.indianexpress.com/2023/11/deepfake-1.jpg" alt="Image 1">
+                <div class="info">
+                    <img src="https://indianexpress.com/wp-content/themes/indianexpress/images/indian-express-logo-n.svg" alt="Logo 1" class="logo">
+                    <p>Centre issues advisory to social media platforms over deepfakes after viral ‘Rashmika Mandanna’ video</p>
+                </div>
+            </div>
+            <div class="four-column-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeZC_qeZbOgAXvN1nXVdjOC7xrgtRzzi0vnA&s" alt="Image 2">
+                <div class="info">
+                    <img src="https://akm-img-a-in.tosshub.com/businesstoday/resource/img/bt_business_today_logo.png" alt="Logo 2" class="logo">
+                    <p>Google Search rolls out new protections against explicit deepfakes
+                        Google introduces advanced measures to remove and filter explicit deepfakes, aiming to protect individual privacy and improve search results.</p>
+                </div>
+            </div>
+            <div class="four-column-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGwZmEpO1br7s1SxgqrLUTUQzEKLXLB-2dhA&s" alt="Image 3">
+                <div class="info">
+                    <img src="https://images.assettype.com/outlookbusiness/2023-08/def3056a-1ab9-4097-ac32-628a3595e442/BUSINESS___Money_Logo_with_Paddong.png" alt="Logo 3" class="logo">
+                    <p>Deepfake Elections: How Indian Politicians Are Using AI-Manipulated Media To Malign Opponents
+                        The use of artificial intelligence by top political consultancies across India is flooding the country's young voter base with manipulative deepfake videos</p>
+                </div>
+            </div>
+            <div class="four-column-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCbKTPo6NAkofacmOU9_kyJy9sRc3SNEpTsA&s" alt="Image 1">
+                <div class="info">
+                    <img style="width:30px" src="data:image/png;base64,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" alt="Logo 1" class="logo">
+                    <p>Taylor Swift’s famous lyric “look what you made me do” took on a new meaning recently as scammers used artificial intelligence technology to create a synthetic version of the singer’s voice which, cobbled together with footage of her standing beside Le Creuset Dutch ovens, falsely offered free cookware sets.</p>
+                </div>
+            </div>
+            <div class="four-column-item">
+                <img src="data:image/jpeg;base64,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" alt="Image 2">
+                <div class="info">
+                    <img style="width:30px" src="https://upload.wikimedia.org/wikipedia/commons/9/9f/NBC_News_2013_logo.png" alt="Logo 2" class="logo">
+                    <p>Top YouTube creator MrBeast (aka Jimmy Donaldson) has called out social media giants for not actively policing their platforms for scams that employ deepfake technology. The most recent issue arose when an ad on TikTok appeared to show MrBeast offering to give away new iPhones for just $2.</p>
+                </div>
+            </div>
+            <div class="four-column-item">
+                <img src="data:image/png;base64,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" alt="Image 3">
+                <div class="info">
+                    <img style="width:30px;" src="https://upload.wikimedia.org/wikipedia/commons/9/9f/NBC_News_2013_logo.png" alt="Logo 3" class="logo">
+                    <p>US-based cyber security company McAfee has announced enhancements to its AI-powered deepfake detection technology in collaboration with the American chip maker Intel. </p>
+                </div>
+            </div>
+            <div class="four-column-item">
+                <img src="data:image/jpeg;base64,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" alt="Image 4">
+                <div class="info">
+                    
+                    <p>
+                        The Misinformation Combat Alliance (MCA) has announced its latest initiative in the fight against AI-generated misinformation in India. Teaming up with Meta, their Deepfakes Analysis Unit (DAU) is set to unveil a WhatsApp tipline on March 25th, aimed at detecting and countering synthetic media.
+                    </p>
+                </div>
+            </div>
+            <!-- Add more columns as needed -->
+        </div>
+    </div>
+</div>
+
+
+
+<div id="check" style="background-color: rgb(9, 9, 9); padding: 20px;">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-12 my-auto">
+                
+                
+                <div  class="width-400">
+                    <video width="100%" controls id="videos">
+                        <source src="" id="video_source">
+                        Your browser does not support HTML5 video.
+                    </video>
+                    <form class="form" method="POST" enctype="multipart/form-data" name="video-upload" id="video-upload" class="text-center mt-3">
+                        {% csrf_token %}
+                        <div style="color:aliceblue" class="form-group">
+                            <label>{{ form.upload_video_file.widget }}</label>
+                            {{ form.upload_video_file }}
+                            {% if form.upload_video_file.errors %}
+                                {% for each_error in form.upload_video_file.errors %}
+                                    <div class="alert alert-danger mt-1 {{ form.upload_video_file.id_for_label }}">
+                                        {{ each_error }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.sequence_length.id_for_label }}" style="color: aliceblue;">{{ form.sequence_length.label }}: </label>
+                            <span id="slider-value" style="color: aliceblue;"> </span>
+                            <input type="number" hidden="hidden" id="{{ form.sequence_length.id_for_label }}" name="{{ form.sequence_length.name }}"></input>
+                            <div id="slider"></div>
+                            {% if form.sequence_length.errors %}
+                                {% for each_error in form.sequence_length.errors %}
+                                    <div class="alert alert-danger mt-1 {{ form.sequence_length.id_for_label }}">
+                                        {{ each_error }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <button id="videoUpload" type="submit" name="submit" class="btn btn-success mt-3 btn-block">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="about" class="container">
+    <div class="custom-container">
+        <div class="info-container">
+            <img src="https://www.knowledgenile.com/wp-content/uploads/brizy/imgs/Demystifying-Deepfake-Technology-How-It-Works-789x442x0x20x789x402x1709574350.jpg" alt="Deepfake Image">
+            <div class="text">
+                <h1>Deepfakes</h1>
+                <p>Deepfakes (a portmanteau of "deep learning" and "fake") were originally synthetic media that had been digitally manipulated to replace one person's likeness convincingly with that of another. The term, coined in 2017 by a Reddit user, has been expanded to cover any videos, pictures, or audio made with artificial intelligence to appear real, e.g., realistic-looking images of people who do not exist.</p>
+            </div>
+        </div>
+    </div>
+    <div class="custom-container">
+        <div class="info-container">
+            <img src="https://lurna.online/wp-content/uploads/2023/08/Deepfake-Technology-1170x700.webp" alt="Deepfake Image">
+            <div class="text">
+                <h1>Deepfakes</h1>
+                <p>While the act of creating fake content is not new, deepfakes leverage tools and techniques from machine learning and artificial intelligence,including facial recognition algorithms and artificial neural networks such as variational autoencoders (VAEs) and generative adversarial networks (GANs). In turn the field of image forensics develops techniques to detect manipulated images. Deepfakes have garnered widespread attention for their potential use in creating child sexual abuse material, celebrity pornographic videos, fake news, hoaxes, bullying, and financial fraud</p>
+            </div>
+        </div>
+    </div>
+    <div class="custom-container">
+        <div class="info-container">
+            <img src="https://hoodem.com/wp-content/uploads/2021/10/illus_createanydeepfake_1lighto.png" alt="Deepfake Image">
+            <div class="text">
+                <h1>Deepfakes</h1>
+                <p>Deepfakes pose significant security risks as they can be used to create realistic but fake videos and images, potentially spreading misinformation and damaging reputations. Ensuring deepfake safety involves developing and using detection technologies to identify and mitigate these threats. Legal frameworks and regulations are essential to address the misuse of deepfakes. Public awareness and education on identifying deepfakes can help reduce their impact. Collaborating with tech companies to enhance detection tools is crucial. Prioritizing ethical standards in AI development is key to safeguarding against deepfake abuses.</p>
+            </div>
+        </div
+    </div>
+</div>
+
+
+
+{% endblock %}
+{% block js_cripts %}
+
+<script src="{% static 'js/script.js' %}"></script>
+<script>
+    // JavaScript for toggling the menu
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+        var menu = document.getElementById('vertical-menu');
+        var toggleIcon = document.getElementById('menu-toggle');
+        menu.classList.toggle('show');
+        toggleIcon.classList.toggle('open');
+    });
+
+    // Initialize the slider
+    $(function () {
+        var sliderSequenceNumbers = [10, 20, 40, 60, 80, 100];
+        var slider = $("div#slider").slider({
+            value: 1,
+            min: 0,
+            max: sliderSequenceNumbers.length - 1,
+            slide: function (event, ui) {
+                $('#{{ form.sequence_length.id_for_label }}').val(sliderSequenceNumbers[ui.value]);
+                $('#slider-value').html(sliderSequenceNumbers[ui.value]);
+            }
+        });
+        $("#{{ form.sequence_length.id_for_label }}").val(sliderSequenceNumbers[$("#slider").slider("value")]);
+        $('#slider-value').html(sliderSequenceNumbers[$("#slider").slider("value")]);
+    });
+
+    // Intersection Observer for animating elements when they come into view
+    document.addEventListener('DOMContentLoaded', function () {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                    entry.target.querySelector('img').classList.add('slide-in-left');
+                    entry.target.querySelector('.text').classList.add('slide-in-right');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.info-container').forEach(container => {
+            observer.observe(container);
+        });
+    });
+</script>
+
+
+{% endblock %}

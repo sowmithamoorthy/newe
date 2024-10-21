@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+  /* CSS for the heading and blue underline */
+.deepfake-heading {
+  color: white;
+  font-size: 2.5em;
+}
+
+.underline {
+  width: 100%;
+  height: 2px;
+  background-color: rgb(89, 15, 121);
+  margin-top: 20px; /* Adjust if needed */
+  margin-bottom: 40px; /* Adjust if needed */
+  margin-right: 100px;
+}
+
+.relevant-logo {
+  width: 50px; /* Adjust the size as needed */
+  height: auto;
+  margin-bottom: 10px;
+}
+</style>
+<div class="container text-center">
+  <!-- Logo before the heading -->
+  <div class="logo text-center mb-3">
+  
+  </div>
+
+  <!-- Heading with blue underline -->
+  <h1 class="deepfake-heading">
+    Deepfake Detection
+  </h1>
+  <div class="underline"></div>
+
+  <hr />
+
+  {% if no_faces %}
+  <div class="alert alert-danger">
+    No faces detected. Cannot process the video.
+  </div>
+  {% else %}
+  <h3 style="color:white">Frames Split</h3>
+  <div id="preprocessed_images" class="col-12 mt-4 mb-2">
+    {% for each_image in preprocessed_images %}
+    <img src="{% static each_image %}" class="preprocess" width="auto" height="250">
+    {% endfor %}
+  </div>
+
+  <h3 style="color:white;padding-top: 30px;">Face Cropped Frames</h3>
+  <div style="padding-bottom: 50px;" id="faces_images" class="col-12 mb-2">
+    {% for each_image in faces_cropped_images %}
+    <img src="{% static each_image %}" class="faces" width="auto" height="150">
+    {% endfor %}
+  </div>
+
+  <div class="result text-center" style="padding-top: 30px;">
+    {% if output == "REAL" %}
+    <h4 class="mx-auto" style="color:white;padding-top: 30px;">Result:<span style="color:green">{{ output }}</span>
+      <img src="{% static 'images/thumpup.png' %}" alt="real" height="50px" width="auto">
+    </h4>
+    {% else %}
+    <h4 class="mx-auto" style="color:white">Result: <span style="color:red">{{ output }}</span>
+      <img src="{% static 'images/thumpdown.png' %}" alt="fake" height="50px" width="auto">
+    </h4>
+    {% endif %}
+  </div>
+
+  {% endif %}
+</div>
+{% endblock %}
+{% block js_cripts %}
+<!-- Remove or include relevant JavaScript based on your needs -->
+{% endblock %}
