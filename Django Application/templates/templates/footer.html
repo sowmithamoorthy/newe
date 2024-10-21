@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            flex: 1;
+        }
+        footer {
+            background-color: black;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        footer .social-icons i {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Content of your page -->
+
+    <!-- Footer -->
+    <footer>
+        <div id="footer" class="container">
+            <!-- Footer Links -->
+            <div class="mb-3">
+                <a href="{% url 'ml_app:home' %}">Home</a>
+                <a href="{% url 'ml_app:about' %}">About</a>
+                <a href="https://github.com/your-repo" target="_blank">Github Link</a>
+            </div>
+            
+            <!-- Social Media Icons -->
+            <div class="social-icons mb-3">
+                <a href="https://facebook.com/your-profile" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://twitter.com/your-profile" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://linkedin.com/in/your-profile" target="_blank">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://instagram.com/your-profile" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+
+            <!-- Footer Text -->
+            <div>
+                <span class="text-muted">© 2024 DEEPFAKE. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
